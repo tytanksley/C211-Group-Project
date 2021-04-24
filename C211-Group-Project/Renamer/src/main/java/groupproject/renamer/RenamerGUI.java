@@ -391,23 +391,30 @@ public class RenamerGUI extends javax.swing.JFrame {
     }
     
     
-    // having trouble with the path seperator
+    // need to change originalFile to get name of renamed file before moving
     public void moveFile()
     {
         String fileSep = File.separator;
-        File originalFile = new File(FieldFilename.getText());
+        String originalFileName = "";
+      
         String targetFileName = "";
-        
+       
   
         // determine if file to be moved will also be renamed
         if(ButtonRename.isSelected())
+        {
+         originalFileName =   FieldNewName.getText();
          targetFileName =  FieldTargetDirectory.getText() + fileSep + FieldNewName.getText();
+                 }
+         
         if(!ButtonRename.isSelected())
-         targetFileName = FieldTargetDirectory.getText() + fileSep + FieldFilename.getText();
-        
+        {
+            originalFileName = FieldFilename.getText();
+            targetFileName = FieldTargetDirectory.getText() + fileSep + FieldFilename.getText();
+        }
         // create target file with new name or original
         File targetFile = new File(targetFileName);
-  
+        File originalFile = new File(originalFileName);
         
         if(originalFile.renameTo(targetFile))
         {
@@ -445,22 +452,34 @@ public class RenamerGUI extends javax.swing.JFrame {
     // test button
     public void testButton()
     {
-        if(ButtonRename.isSelected())
+        if(ButtonRename.isSelected() && !ButtonMove.isSelected())
             testRename();
-        if(ButtonMove.isSelected())
+        if(ButtonMove.isSelected() && !ButtonRename.isSelected())
             testMove();
+        if(ButtonMove.isSelected() && ButtonRename.isSelected())
+        {
+            testRename();
+            testMove();
+        }
     }
     
     // start button
+    // getting a bug when i try to rename and move in same action
     public void startButton()
     {
     // check to see if an action is selected
  
     // if 'rename' button is selected, rename file
-        if(ButtonRename.isSelected())
+     {
+        if(ButtonRename.isSelected() && !ButtonMove.isSelected())
             renameFile();
-        if(ButtonMove.isSelected())
+        if(ButtonMove.isSelected() && !ButtonRename.isSelected())
             moveFile();
+        if(ButtonMove.isSelected() && ButtonRename.isSelected())
+        {
+            renameFile();
+            moveFile();
+        }
     }
     
 
