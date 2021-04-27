@@ -140,18 +140,14 @@ public class RenamerGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonTest)
+                .addGap(18, 18, 18)
+                .addComponent(ButtonStart)
+                .addGap(84, 84, 84))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ButtonMove)
-                            .addComponent(LabelAction)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LabelTargetDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(FieldTargetDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(LabelDirectory)
@@ -159,44 +155,41 @@ public class RenamerGUI extends javax.swing.JFrame {
                         .addComponent(FieldDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(LabelContains)
+                                    .addGap(20, 20, 20)
+                                    .addComponent(FieldContains, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(LabelFilename, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(LabelStartsWith)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(FieldStartsWith, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addComponent(LabelEndsWith)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(FieldEndsWith, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ButtonRename)
+                            .addComponent(ButtonMove)
+                            .addComponent(LabelAction)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(ButtonTest)
-                                .addGap(18, 18, 18)
-                                .addComponent(ButtonStart))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(LabelContains)
-                                            .addGap(20, 20, 20)
-                                            .addComponent(FieldContains, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(LabelFilename)
-                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(LabelStartsWith)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(FieldStartsWith, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGap(1, 1, 1)
-                                            .addComponent(LabelEndsWith)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(FieldEndsWith, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(ButtonRename)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(LabelNewName))))
-                                .addGap(47, 47, 47)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(LabelDirectoryContents)
-                                    .addComponent(LabelChanges)
-                                    .addComponent(NewDirectoryDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                                    .addComponent(DirectoryDisplay))))))
-                .addContainerGap())
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(LabelNewName)
+                                    .addComponent(LabelTargetDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(FieldTargetDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LabelDirectoryContents)
+                            .addComponent(LabelChanges)
+                            .addComponent(DirectoryDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NewDirectoryDisplay))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,9 +200,9 @@ public class RenamerGUI extends javax.swing.JFrame {
                     .addComponent(FieldDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelFilename)
-                    .addComponent(LabelDirectoryContents, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(LabelDirectoryContents, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelFilename))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,26 +224,25 @@ public class RenamerGUI extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addComponent(LabelAction)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(ButtonMove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LabelTargetDirectory)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(NewDirectoryDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ButtonTest)
-                            .addComponent(ButtonStart)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ButtonMove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LabelTargetDirectory)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(FieldTargetDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ButtonRename)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelNewName)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))
+                    .addComponent(NewDirectoryDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonTest)
+                    .addComponent(ButtonStart))
+                .addContainerGap())
         );
 
         pack();
@@ -395,27 +387,9 @@ public class RenamerGUI extends javax.swing.JFrame {
     }
   
     
-    // renameFile() tested, seems to work
-        // need to figure out how to take an arraylist from text area and loop over a list of files from user input
+   
+    
     public void renameFile()
-    {
-        // get old and new filenames from text areas
-        File targetFile = new File(AreaNewFilename.getText());
-        File originalFile = new File(AreaFilename.getText());
-         
-     // rename file
-        if(originalFile.renameTo(targetFile))
-         {  
-        // display changes made
-         String outputMessage = originalFile.toString() +  " changed to " + targetFile.toString();
-         AreaNewDirectory.setText(outputMessage);
-        // refresh list of files in directory after renaming
-         AreaDirectoryDisplay.setText(directoryContentsToString());
-        }
-    
-    }
-    
-    public void renameFile1()
     {
         ArrayList<File> originalFilenames = getFilenames();
         ArrayList<File> newFilenames = getNewFilenames();
@@ -429,15 +403,9 @@ public class RenamerGUI extends javax.swing.JFrame {
         }
     }
     // display changes to be made made by renameFile()
-    public void testRename()
-    {
-        File targetFile = new File(AreaNewFilename.getText());
-        File originalFile = new File(AreaFilename.getText()); 
-        AreaNewDirectory.setText(originalFile.toString() + " --> " + targetFile.toString());
-      
-    }
+  
     
-    public void testRename1()
+    public void testRename()
     {
         ArrayList<String> orginalFilenames = filenamesToString();
         ArrayList<String> newFilenames = newFilenamesToString();
@@ -451,44 +419,9 @@ public class RenamerGUI extends javax.swing.JFrame {
     
         }
     }
-    // need to change originalFile to get name of renamed file before moving
-    public void moveFile()
-    {
-        String fileSep = File.separator;
-        String originalFileName = "";
-      
-        String targetFileName = "";
-       
   
-        // determine if file to be moved will also be renamed
-        if(ButtonRename.isSelected())
-        {
-         originalFileName =   AreaNewFilename.getText();
-         targetFileName =  FieldTargetDirectory.getText() + fileSep + AreaNewFilename.getText();
-                 }
-         
-        if(!ButtonRename.isSelected())
-        {
-            originalFileName = AreaFilename.getText();
-            targetFileName = FieldTargetDirectory.getText() + fileSep + AreaFilename.getText();
-        }
-        // create target file with new name or original
-        File targetFile = new File(targetFileName);
-        File originalFile = new File(originalFileName);
-        
-        if(originalFile.renameTo(targetFile))
-        {
-            String outputMessage = originalFile.toString() +  " moved to " + targetFile.toString();
-            AreaNewDirectory.setText(outputMessage);
-            // refresh list of files in directory after renaming
-            AreaDirectoryDisplay.setText(directoryContentsToString());
-            // delete original file
-            originalFile.delete();
-        }
-        
-    }
     
-     public void moveFile1()
+     public void moveFile()
     {
         String fileSep = File.separator;
         ArrayList<File> originalFilenames = new ArrayList<>();
@@ -499,7 +432,7 @@ public class RenamerGUI extends javax.swing.JFrame {
         // determine if file to be moved will also be renamed
         if(ButtonRename.isSelected())
         {
-            renameFile1();
+            renameFile();
             originalFilenames = getNewFilenames();
          for(int i = 0; i < newFilenames.size(); i++)
          {
@@ -536,25 +469,9 @@ public class RenamerGUI extends javax.swing.JFrame {
         }
     
     
-    public void testMove()
-    {
-       String fileSep = File.separator;
-        
-         File originalFile = new File(AreaFilename.getText());
-        String targetFileName = "";
-                // determine if file to be moved will also be renamed
-        if(ButtonRename.isSelected())
-         targetFileName =  FieldTargetDirectory.getText() + fileSep + AreaNewFilename.getText();
-        if(!ButtonRename.isSelected())
-         targetFileName = FieldTargetDirectory.getText() + fileSep + AreaFilename.getText();
-        
-        // create target file with new name or original
-        File targetFile = new File(targetFileName);
-  
-        AreaNewDirectory.setText(originalFile.toString() + " --> " + targetFile.toString() + "\n");
-    }
+ 
     
-    public void testMove1()
+    public void testMove()
     {
         String fileSep = File.separator;
         ArrayList<File> originalFiles = getFilenames();
@@ -603,13 +520,13 @@ public class RenamerGUI extends javax.swing.JFrame {
     {
 
         if(ButtonRename.isSelected() && !ButtonMove.isSelected())
-            testRename1();
+            testRename();
         if(ButtonMove.isSelected() && !ButtonRename.isSelected())
-            testMove1();
+            testMove();
         if(ButtonMove.isSelected() && ButtonRename.isSelected())
         {
           //  testRename();
-            testMove1();
+            testMove();
         }
     }
     
@@ -627,14 +544,14 @@ public class RenamerGUI extends javax.swing.JFrame {
       
         {
         if(ButtonRename.isSelected() && !ButtonMove.isSelected())
-            renameFile1();
+            renameFile();
         if(ButtonMove.isSelected() && !ButtonRename.isSelected())
-            moveFile1();
+            moveFile();
         if(ButtonMove.isSelected() && ButtonRename.isSelected())
         {
            
-           renameFile1();
-            moveFile1();
+           renameFile();
+            moveFile();
       }
       }
        
