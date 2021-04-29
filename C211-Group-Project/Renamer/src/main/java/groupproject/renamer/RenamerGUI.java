@@ -362,7 +362,7 @@ public class RenamerGUI extends javax.swing.JFrame {
     
     // List files in directory
     
-    File[] displayDirectoryContents(){
+   public File[] displayDirectoryContents(){
        File currentDirectory = new File(getCurrentDirectory());
     File[] directoryContents = currentDirectory.listFiles(); 
    try {
@@ -400,8 +400,6 @@ public class RenamerGUI extends javax.swing.JFrame {
          
          for(int i = 0; i < files.length; i++)
          {
-            // Matcher matcher = pattern.matcher("*" + files.get(i).toString() + "*");
-           
              if(files[i].getName().contains(patternString))
                  matchingFiles.add(files[i]);
              
@@ -420,16 +418,16 @@ public class RenamerGUI extends javax.swing.JFrame {
          {
             String comparison = f.getName();
          Boolean matched = comparison.matches(patternString);
-       
+         
          
          if(matched)
              matchingFiles.add(f);
          }
-        
+   
          return matchingFiles;
     }
     
-    public ArrayList<File> filenameStartswith()
+    public ArrayList<File> filenameStartsWith()
     {
            File[] files = displayDirectoryContents();
          ArrayList<File> matchingFiles = new ArrayList<File>();
@@ -475,15 +473,56 @@ public class RenamerGUI extends javax.swing.JFrame {
     
     public void testRename()
     {
-        ArrayList<String> orginalFilenames = filenamesToString();
-        ArrayList<String> newFilenames = newFilenamesToString();
+        
+        ArrayList<String> newFilenames = new ArrayList<>();
+        ArrayList<String> originalFilenames = new ArrayList<>();
+        String newName = "";
+        
+        // see if advanced options are selected
+        if(!FieldContains.getText().isBlank())
+        {
+            for(File f : filenameContains())
+            {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldContains.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+        }
+        }
+        
+        // check for 'ends with' field value
+        if(!FieldEndsWith.getText().isBlank())
+        {
+           for(File f : filenameEndsWith())
+            {
+                originalFilenames.add(f.getName());
+               newName = f.getName().replace(FieldEndsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+        }
+        }      
+        // check for 'starts with' value
+        if(!FieldStartsWith.getText().isBlank())
+        {
+           for(File f : filenameStartsWith())
+            {
+                originalFilenames.add(f.getName());
+               newName = f.getName().replace(FieldStartsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+        }
+        }
+        // display changes to be made
+        if(FieldStartsWith.getText().isBlank() && FieldEndsWith.getText().isBlank() && FieldContains.getText().isBlank())
+        {
+            originalFilenames = filenamesToString();
+            newFilenames = newFilenamesToString();
+        }
+        
         
         // clear display
         AreaNewDirectory.setText("");
         try {
-        for (int i = 0; i < orginalFilenames.size(); i++)
+        for (int i = 0; i < originalFilenames.size(); i++)
         {
-        AreaNewDirectory.append(orginalFilenames.get(i) + " --> " + newFilenames.get(i) + "\n");
+        AreaNewDirectory.append(originalFilenames.get(i) + " --> " + newFilenames.get(i) + "\n");
     
         }
         }
@@ -615,12 +654,13 @@ public class RenamerGUI extends javax.swing.JFrame {
         // test button
     public void testButton()
     {
+        testRename();
         /**
         AreaNewDirectory.setText("");
-        for(File f : filenameStartswith())
+        for(File f : filenameEndsWith())
             AreaNewDirectory.append(f.getName());
-        **/
-        
+     /**
+   
         try{
         if(ButtonRename.isSelected() && !ButtonMove.isSelected())
             testRename();
@@ -635,9 +675,9 @@ public class RenamerGUI extends javax.swing.JFrame {
         catch(Exception e){
         AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
     }
-    
+  **/    
     }
-    
+  
     // start button
     public void startButton()
     {
@@ -661,8 +701,9 @@ public class RenamerGUI extends javax.swing.JFrame {
             moveFile();
       }
       }
-       
+     
     }
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
