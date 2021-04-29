@@ -3,9 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 package groupproject.renamer;
 
 import java.io.File;
@@ -17,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /**
  *
  * @author home
@@ -102,7 +100,12 @@ public class RenamerGUI extends javax.swing.JFrame {
 
         LabelTargetDirectory.setText("Target Directory");
 
-        FieldTargetDirectory.setText("[Target Directory]");
+        FieldTargetDirectory.setText("/media/home/SDE/Computers/Classes/info_c_211/Project/C211-Group-Project/Renamer/TestFiles");
+        FieldTargetDirectory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FieldTargetDirectoryActionPerformed(evt);
+            }
+        });
 
         LabelAction.setText("Action");
 
@@ -254,22 +257,24 @@ public class RenamerGUI extends javax.swing.JFrame {
 
     private void ButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStartActionPerformed
         // TODO add your handling code here:
-           if(!ButtonRename.isSelected() && !ButtonMove.isSelected())
-        AreaNewDirectory.setText("No actions have been selected!\nPlease select 'Move' or 'Rename'");
-    else
-    {
-        startButton();
-    }
+        if (!ButtonRename.isSelected() && !ButtonMove.isSelected())
+            AreaNewDirectory.setText("No actions have been selected!\nPlease select 'Move' or 'Rename'");
+        else {
+            startButton();
+        }
     }//GEN-LAST:event_ButtonStartActionPerformed
 
     private void ButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTestActionPerformed
-       if(!ButtonRename.isSelected() && !ButtonMove.isSelected())
-        AreaNewDirectory.setText("No actions have been selected!\nPlease select 'Move' or 'Rename'");
-    else
-    {
-        testButton();
-    }
+        if (!ButtonRename.isSelected() && !ButtonMove.isSelected())
+            AreaNewDirectory.setText("No actions have been selected!\nPlease select 'Move' or 'Rename'");
+        else {
+            testButton();
+        }
     }//GEN-LAST:event_ButtonTestActionPerformed
+
+    private void FieldTargetDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FieldTargetDirectoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FieldTargetDirectoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,404 +312,464 @@ public class RenamerGUI extends javax.swing.JFrame {
     }
 
     // get arraylist of files from AreaFilename
+    public ArrayList<File> getFilenames() {
+        Scanner scan = new Scanner(AreaFilename.getText());
+        ArrayList<File> filenames = new ArrayList<File>();
+        while (scan.hasNext()) {
+            filenames.add(new File(scan.next()));
+        }
 
-    public ArrayList<File> getFilenames(){
-     Scanner scan = new Scanner(AreaFilename.getText());
-     ArrayList<File> filenames = new ArrayList<File>();
-     while (scan.hasNext())
-             {
-                 filenames.add(new File(scan.next()));
-             }
-
-     return filenames;
+        return filenames;
     }
+
     // get arraylist of files from AreaNewFilename
-    public ArrayList<File> getNewFilenames(){
-     Scanner scan = new Scanner(AreaNewFilename.getText());
-     ArrayList<File> filenames = new ArrayList<File>();
-     while (scan.hasNext())
-             {
-                 filenames.add(new File(scan.next()));
-             }
+    public ArrayList<File> getNewFilenames() {
+        Scanner scan = new Scanner(AreaNewFilename.getText());
+        ArrayList<File> filenames = new ArrayList<File>();
+        while (scan.hasNext()) {
+            filenames.add(new File(scan.next()));
+        }
 
-     return filenames;
+        return filenames;
     }
-    
+
     // return an ArrayList<String> from AreaFilename
-    public ArrayList<String> filenamesToString()
-    {
+    public ArrayList<String> filenamesToString() {
         ArrayList<String> filenames = new ArrayList<String>();
-        for (File file: getFilenames())
-        {
+        for (File file : getFilenames()) {
             filenames.add(file.toString());
         }
         return filenames;
     }
-    
+
     // return an ArrayList<String> from AreaNewFilename
-     public ArrayList<String> newFilenamesToString()
-    {
+    public ArrayList<String> newFilenamesToString() {
         ArrayList<String> filenames = new ArrayList<String>();
-        for (File file: getNewFilenames())
-        {
+        for (File file : getNewFilenames()) {
             filenames.add(file.toString());
         }
         return filenames;
     }
 
     // Find current directory
-   public String getCurrentDirectory() {
-      String path = System.getProperty("user.dir");
-      
-      System.out.println("Working Directory = " + path);
-      return path;
+    public String getCurrentDirectory() {
+        String path = System.getProperty("user.dir");
+
+        System.out.println("Working Directory = " + path);
+        return path;
     }
-    
+
     // List files in directory
-    
-   public File[] displayDirectoryContents(){
-       File currentDirectory = new File(getCurrentDirectory());
-    File[] directoryContents = currentDirectory.listFiles(); 
-   try {
-      for(File file : directoryContents) {
-        if(file.isFile()) {
-          System.out.println(file);
-      }
-      }
-    } catch (Exception e) {
-      e.getStackTrace();
+    public File[] displayDirectoryContents() {
+        File currentDirectory = new File(getCurrentDirectory());
+        File[] directoryContents = currentDirectory.listFiles();
+        try {
+            for (File file : directoryContents) {
+                if (file.isFile()) {
+                    System.out.println(file);
+                }
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return directoryContents;
     }
-     return directoryContents;  
-    }
-    
+
     // list contents of directory as String with line breaks after each file
-    public String directoryContentsToString(){
+    public String directoryContentsToString() {
         String files = "";
-        for(File file: displayDirectoryContents()){
+        for (File file : displayDirectoryContents()) {
             files += file.getName() + "\n";
         }
-        
+
         return files;
     }
-  
+
     // return arraylist<file> of files that contain a string
-    public ArrayList<File> filenameContains()
-     {
-       
+    public ArrayList<File> filenameContains() {
+
         File[] files = displayDirectoryContents();
-         // arraylist to hold files with matching name
-         ArrayList<File> matchingFiles = new ArrayList<File>();
-         String patternString = FieldContains.getText();
-       
-         // loop through getFilenames() arraylist and check against pattern
-         
-         for(int i = 0; i < files.length; i++)
-         {
-             if(files[i].getName().contains(patternString))
-                 matchingFiles.add(files[i]);
-             
-         }
-             return matchingFiles;
-        
-     }    
-  
-    public ArrayList<File> filenameEndsWith()
-    {
-         File[] files = displayDirectoryContents();
-         ArrayList<File> matchingFiles = new ArrayList<File>();
-         String patternString = ".*" + FieldEndsWith.getText() + "$";
-         
-         for(File f : files)
-         {
-            String comparison = f.getName();
-         Boolean matched = comparison.matches(patternString);
-         
-         
-         if(matched)
-             matchingFiles.add(f);
-         }
-   
-         return matchingFiles;
-    }
-    
-    public ArrayList<File> filenameStartsWith()
-    {
-           File[] files = displayDirectoryContents();
-         ArrayList<File> matchingFiles = new ArrayList<File>();
-         String patternString = "^" + FieldStartsWith.getText() + ".*";
-         
-         
-         for(File f : files)
-         {
-            String comparison = f.getName();
-         Boolean matched = comparison.matches(patternString);
-       
-         
-         if(matched)
-             matchingFiles.add(f);
-         }
-        
-         return matchingFiles;
-        
-    }
-    
-   // get files from AreaFilename and rename them to match AreaNewfilename
-        // need to add an exception catch here r/e number of files
-    
-    public void renameFile()
-    {
-        ArrayList<File> originalFilenames = getFilenames();
-        ArrayList<File> newFilenames = getNewFilenames();
-          AreaNewDirectory.setText("");
-          
-        try {
-             for(int i = 0; i < originalFilenames.size(); i++)
-        {
-            if(originalFilenames.get(i).renameTo(newFilenames.get(i)));
-            AreaNewDirectory.append(originalFilenames.get(i).toString() + " --> " + newFilenames.get(i).toString());
+        // arraylist to hold files with matching name
+        ArrayList<File> matchingFiles = new ArrayList<File>();
+        String patternString = FieldContains.getText();
+
+        // loop through getFilenames() arraylist and check against pattern
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].getName().contains(patternString)) {
+                matchingFiles.add(files[i]);
+            }
+
         }
+        return matchingFiles;
+
+    }
+
+    public ArrayList<File> filenameEndsWith() {
+        File[] files = displayDirectoryContents();
+        ArrayList<File> matchingFiles = new ArrayList<File>();
+        String patternString = ".*" + FieldEndsWith.getText() + "$";
+
+        for (File f : files) {
+            String comparison = f.getName();
+            Boolean matched = comparison.matches(patternString);
+
+            if (matched) {
+                matchingFiles.add(f);
+            }
         }
-       catch(Exception e){
-        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+
+        return matchingFiles;
     }
+
+    public ArrayList<File> filenameStartsWith() {
+        File[] files = displayDirectoryContents();
+        ArrayList<File> matchingFiles = new ArrayList<File>();
+        String patternString = "^" + FieldStartsWith.getText() + ".*";
+
+        for (File f : files) {
+            String comparison = f.getName();
+            Boolean matched = comparison.matches(patternString);
+
+            if (matched) {
+                matchingFiles.add(f);
+            }
+        }
+
+        return matchingFiles;
+
     }
-    // display changes to be made made by renameFile()
-  
-    
-    public void testRename()
-    {
-        
-        ArrayList<String> newFilenames = new ArrayList<>();
+
+    // get files from AreaFilename and rename them to match AreaNewfilename
+    // need to add an exception catch here r/e number of files
+    public void renameFile() {
+         ArrayList<String> newFilenames = new ArrayList<>();
         ArrayList<String> originalFilenames = new ArrayList<>();
         String newName = "";
-        
+
         // see if advanced options are selected
-        if(!FieldContains.getText().isBlank())
-        {
-            for(File f : filenameContains())
-            {
+        if (!FieldContains.getText().isBlank()) {
+            for (File f : filenameContains()) {
                 originalFilenames.add(f.getName());
                 newName = f.getName().replace(FieldContains.getText(), AreaNewFilename.getText());
                 newFilenames.add(newName);
+            }
         }
-        }
-        
+
         // check for 'ends with' field value
-        if(!FieldEndsWith.getText().isBlank())
-        {
-           for(File f : filenameEndsWith())
-            {
+        if (!FieldEndsWith.getText().isBlank()) {
+            for (File f : filenameEndsWith()) {
                 originalFilenames.add(f.getName());
-               newName = f.getName().replace(FieldEndsWith.getText(), AreaNewFilename.getText());
+                newName = f.getName().replace(FieldEndsWith.getText(), AreaNewFilename.getText());
                 newFilenames.add(newName);
+            }
         }
-        }      
         // check for 'starts with' value
-        if(!FieldStartsWith.getText().isBlank())
-        {
-           for(File f : filenameStartsWith())
-            {
+        if (!FieldStartsWith.getText().isBlank()) {
+            for (File f : filenameStartsWith()) {
                 originalFilenames.add(f.getName());
-               newName = f.getName().replace(FieldStartsWith.getText(), AreaNewFilename.getText());
+                newName = f.getName().replace(FieldStartsWith.getText(), AreaNewFilename.getText());
                 newFilenames.add(newName);
+            }
         }
-        }
-        // display changes to be made
-        if(FieldStartsWith.getText().isBlank() && FieldEndsWith.getText().isBlank() && FieldContains.getText().isBlank())
-        {
+       // if no advanced options
+        if (FieldStartsWith.getText().isBlank() && FieldEndsWith.getText().isBlank() && FieldContains.getText().isBlank()) {
             originalFilenames = filenamesToString();
             newFilenames = newFilenamesToString();
         }
         
         
+        AreaNewDirectory.setText("");
+
+        try {
+            for (int i = 0; i < originalFilenames.size(); i++) {
+                File oldFile = new File(originalFilenames.get(i));
+                File newFile = new File(newFilenames.get(i));
+                if (oldFile.renameTo(newFile));
+                AreaNewDirectory.append(originalFilenames.get(i) + " --> " + newFilenames.get(i) + "\n");
+                AreaDirectoryDisplay.setText(directoryContentsToString());
+            }
+        } catch (Exception e) {
+            AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+        }
+    }
+    // display changes to be made made by renameFile()
+
+    public void testRename() {
+
+        ArrayList<String> newFilenames = new ArrayList<>();
+        ArrayList<String> originalFilenames = new ArrayList<>();
+        String newName = "";
+
+        // see if advanced options are selected
+        if (!FieldContains.getText().isBlank()) {
+            for (File f : filenameContains()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldContains.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+
+        // check for 'ends with' field value
+        if (!FieldEndsWith.getText().isBlank()) {
+            for (File f : filenameEndsWith()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldEndsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+        // check for 'starts with' value
+        if (!FieldStartsWith.getText().isBlank()) {
+            for (File f : filenameStartsWith()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldStartsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+        // display changes to be made
+        if (FieldStartsWith.getText().isBlank() && FieldEndsWith.getText().isBlank() && FieldContains.getText().isBlank()) {
+            originalFilenames = filenamesToString();
+            newFilenames = newFilenamesToString();
+        }
+
         // clear display
         AreaNewDirectory.setText("");
         try {
-        for (int i = 0; i < originalFilenames.size(); i++)
-        {
-        AreaNewDirectory.append(originalFilenames.get(i) + " --> " + newFilenames.get(i) + "\n");
-    
+            for (int i = 0; i < originalFilenames.size(); i++) {
+                AreaNewDirectory.append(originalFilenames.get(i) + " --> " + newFilenames.get(i) + "\n");
+
+            }
+        } catch (Exception e) {
+            AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
         }
-        }
-         catch(Exception e){
-        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
     }
-    }
-  
-    
-     public void moveFile()
-    {
+
+    public void moveFile() {
         String fileSep = File.separator;
         // arraylists of old/new filenames, plus a dummy arraylist for target files
         // targetFilenames = originalFilenames if now renaming
+
+       ArrayList<String> newFilenames = new ArrayList<>();
+        ArrayList<String> originalFilenames = new ArrayList<>();
+        ArrayList<File> targetFiles = new ArrayList<>();
+        String newName = "";
+
+        // see if advanced options are selected
+        if (!FieldContains.getText().isBlank()) {
+            for (File f : filenameContains()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldContains.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+
+        // check for 'ends with' field value
+        if (!FieldEndsWith.getText().isBlank()) {
+            for (File f : filenameEndsWith()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldEndsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+        // check for 'starts with' value
+         if (!FieldStartsWith.getText().isBlank()) {
+            for (File f : filenameStartsWith()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldStartsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+        // display changes to be made
+         if(FieldStartsWith.getText().isBlank() && FieldEndsWith.getText().isBlank() && FieldContains.getText().isBlank()) {
+            originalFilenames = filenamesToString();
+            newFilenames = newFilenamesToString();
+            AreaNewDirectory.setText(newFilenamesToString().toString());
+        }
         
-        ArrayList<File> originalFilenames = new ArrayList<>();
-        ArrayList<File> newFilenames = getNewFilenames();
-        ArrayList<File> targetFilenames = new ArrayList<>();
-           
-        try{
-      
-        //  if file to be moved will also be renamed
-        if(ButtonRename.isSelected())
-        {
-            renameFile();
-            originalFilenames = getNewFilenames();
-         for(int i = 0; i < newFilenames.size(); i++)
-         {
-          
-            targetFilenames.add(new File(FieldTargetDirectory.getText() + fileSep + newFilenames.get(i).toString()));             
+     
+        try {
+          //  AreaNewDirectory.setText("");
+            
+            //  if file to be moved will also be renamed
+            if (ButtonRename.isSelected()) {
+                
+                for (int i = 0; i < newFilenames.size(); i++) {
+                    File newFile = new File(FieldTargetDirectory.getText() + fileSep + newFilenames.get(i));
+                    targetFiles.add(newFile);
+                    AreaNewDirectory.append(newFile.toString());
+                }
+            }
+            // if only moving, not renaming
+            if (!ButtonRename.isSelected()) {
+                for (int i = 0; i < originalFilenames.size(); i++) {
+                    File newFile = new File(FieldTargetDirectory.getText() + fileSep + originalFilenames.get(i));
+                    targetFiles.add(newFile);
+                    AreaNewDirectory.append(newFile.toString());
+                }
+            }
+
+            // clear display 
+        //    AreaNewDirectory.setText("");
+
+            // use rename() to move file to new directory with original or new filename
+            for (int i = 0; i < originalFilenames.size(); i++) {
+                File originalFile = new File(originalFilenames.get(i));
+                File newFile = targetFiles.get(i);
+                if (originalFile.renameTo(newFile)) {
+                    String output = originalFilenames.get(i) + " --> " + FieldTargetDirectory.getText() + fileSep + newFile.toString();
+                    AreaNewDirectory.append(output);
+                    
+                }
+                    AreaDirectoryDisplay.setText(directoryContentsToString());
+            }
+        } catch (Exception e) {
+            AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
         }
+
+    }
+
+    public void testMove() {
+        String fileSep = File.separator;
+
+        // arraylists of old/new filenames, plus a dummy arraylist for target files
+        // targetFilenames = originalFilenames if now renaming
+       ArrayList<String> newFilenames = new ArrayList<>();
+        ArrayList<String> originalFilenames = new ArrayList<>();
+        ArrayList<File> targetFiles = new ArrayList<>();
+        String newName = "";
+
+        // see if advanced options are selected
+        if (!FieldContains.getText().isBlank()) {
+            for (File f : filenameContains()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldContains.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
         }
-        // if only moving, not renaming
-        if(!ButtonRename.isSelected())
-        {
-            originalFilenames = getFilenames();
-          for(int i = 0; i < originalFilenames.size(); i++)
-         {
-             targetFilenames.add(new File(FieldTargetDirectory.getText() + fileSep + originalFilenames.get(i).toString()));
-             AreaNewDirectory.append(targetFilenames.toString());
-             }
+
+        // check for 'ends with' field value
+        if (!FieldEndsWith.getText().isBlank()) {
+            for (File f : filenameEndsWith()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldEndsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
         }
+        // check for 'starts with' value
+        if (!FieldStartsWith.getText().isBlank()) {
+            for (File f : filenameStartsWith()) {
+                originalFilenames.add(f.getName());
+                newName = f.getName().replace(FieldStartsWith.getText(), AreaNewFilename.getText());
+                newFilenames.add(newName);
+            }
+        }
+        // display changes to be made
+        if (FieldStartsWith.getText().isBlank() && FieldEndsWith.getText().isBlank() && FieldContains.getText().isBlank()) {
+            originalFilenames = filenamesToString();
+            newFilenames = newFilenamesToString();
+        }
+
+
         
-       // clear display 
-       AreaNewDirectory.setText("");
-       
-       // use rename() to move file to new directory with original or new filename
-      for(int i = 0; i < originalFilenames.size(); i++)
+        
+        try {
+
+            /**
+             * can't get this directory test to work properly // check to see if
+             * target directory exists Path targetDirectory =
+             * Paths.get(FieldTargetDirectory.toString());
+             * assert(Files.isDirectory(targetDirectory));
+         *
+             */
+            // move only
+            // get filenames from AreaFilename and add to targetFiles
+            if (!ButtonRename.isSelected()) {
+                for (String s : originalFilenames) {
+                    targetFiles.add(new File(s));
+                }
+                //Clear display
+                AreaNewDirectory.setText("");
+                // Show changes to be made     
+                for (File f : targetFiles) {
+
+                    AreaNewDirectory.append(f + " --> " + FieldTargetDirectory.getText() + fileSep + f + "\n");
+
+                }
+
+            }
+            // move and rename
+
+            // get filenames from AreaFilename and add to targetFiles
+            if (ButtonRename.isSelected()) {
+                for (String s : newFilenames) {
+                    targetFiles.add(new File(s));
+                }
+                // clear display
+                AreaNewDirectory.setText("");
+
+                for (int i = 0; i < originalFilenames.size(); i++) {
+                    AreaNewDirectory.append(originalFilenames.get(i) + " --> " + FieldTargetDirectory.getText() + fileSep + targetFiles.get(i) + "\n");
+                }
+            }
+             for(int i = 0; i < originalFilenames.size(); i++)
       {
-          if(originalFilenames.get(i).renameTo(targetFilenames.get(i)))
+          File originalFile = new File(originalFilenames.get(i));
+          if(originalFile.renameTo(targetFiles.get(i)))
           {
-              String output = originalFilenames.get(i).toString() + " --> " + FieldTargetDirectory.getText() + fileSep + targetFilenames.get(i).toString();
+              String output = originalFilenames.get(i).toString() + " --> " + FieldTargetDirectory.getText() + fileSep + targetFiles.get(i).toString();
               AreaNewDirectory.setText(output);
           }
         
     }
+        } catch (Exception e) {
+            AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
         }
-        
-        
-     catch(Exception e){
-        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
     }
-    
-        
-    }
-    
-    public void testMove()
-    {
-        String fileSep = File.separator;
-        
-        // arraylists of old/new filenames, plus a dummy arraylist for target files
-            // targetFilenames = originalFilenames if now renaming
-        ArrayList<File> originalFiles = getFilenames();
-        ArrayList<File> newFiles = getNewFilenames();
-        ArrayList<String> targetFiles = new ArrayList<String>();
-       
-     
-        try {
-        
-            /**
-         * can't get this directory test to work properly 
-              // check to see if target directory exists
-        Path targetDirectory = Paths.get(FieldTargetDirectory.toString());       
-        assert(Files.isDirectory(targetDirectory));
-         **/
-            
-            // move only
-        // get filenames from AreaFilename and add to targetFiles
-        if(!ButtonRename.isSelected())
-        {
-            for(File f : originalFiles)
-        {
-            targetFiles.add(f.toString());
-        }
-       //Clear display
-       AreaNewDirectory.setText("");
-       // Show changes to be made     
-       for(String s : targetFiles)
-       {
-           
-           AreaNewDirectory.append(s + " --> " + FieldTargetDirectory.getText() + fileSep + s + "\n");      
-           
-    }
-        
-        }
-           // move and rename
-        
-        // get filenames from AreaFilename and add to targetFiles
-        if(ButtonRename.isSelected())
-        {
-        for(File s : newFiles)
-        {
-            targetFiles.add(s.toString());
-        }
-        // clear display
-        AreaNewDirectory.setText("");
-        
-       for (int i = 0; i < originalFiles.size(); i++)
-       {    
-           AreaNewDirectory.append(originalFiles.get(i) + " --> " + FieldTargetDirectory.getText() + fileSep + newFiles.get(i) + "\n");
-       }
-        }
-        }
-        
-        catch(Exception e){
-        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
-    }
-        }
-        // test button
-    public void testButton()
-    {
-        testRename();
+    // test button
+
+    public void testButton() {
+        testMove();
         /**
-        AreaNewDirectory.setText("");
-        for(File f : filenameEndsWith())
-            AreaNewDirectory.append(f.getName());
-     /**
-   
-        try{
-        if(ButtonRename.isSelected() && !ButtonMove.isSelected())
-            testRename();
-        if(ButtonMove.isSelected() && !ButtonRename.isSelected())
-            testMove();
-        if(ButtonMove.isSelected() && ButtonRename.isSelected())
-        {
-          //  testRename();
-            testMove();
-        }
-        }
-        catch(Exception e){
-        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+         * AreaNewDirectory.setText(""); for(File f : filenameEndsWith())
+         * AreaNewDirectory.append(f.getName()); /**
+         *
+         * try{ if(ButtonRename.isSelected() && !ButtonMove.isSelected())
+         * testRename(); if(ButtonMove.isSelected() &&
+         * !ButtonRename.isSelected()) testMove(); if(ButtonMove.isSelected() &&
+         * ButtonRename.isSelected()) { // testRename(); testMove(); } }
+         * catch(Exception e){ AreaNewDirectory.setText("Something went wrong.
+         * Please make sure you have the correct number of new names and correct
+         * location for your desired changes"); }
+  *
+         */
     }
-  **/    
-    }
-  
+
     // start button
-    public void startButton()
-    {
+    public void startButton() {
 
-    // check to see if an action is selected
- 
-        
-        
-    // if 'rename' button is selected, rename file
-     
-      
+        // check to see if an action is selected
+        // if 'rename' button is selected, rename file
         {
-        if(ButtonRename.isSelected() && !ButtonMove.isSelected())
-            renameFile();
-        if(ButtonMove.isSelected() && !ButtonRename.isSelected())
-            moveFile();
-        if(ButtonMove.isSelected() && ButtonRename.isSelected())
-        {
-           
-           renameFile();
-            moveFile();
-      }
-      }
+            if (ButtonRename.isSelected() && !ButtonMove.isSelected()) {
+                renameFile();
+            }
+            
+            if (ButtonMove.isSelected()) {
+                moveFile();
+            }
      
+            
+          /**
+                  
+            if (ButtonMove.isSelected() && ButtonRename.isSelected()) {
+
+                renameFile();
+                moveFile();
+            }
+            **/ 
+        }
+
     }
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea AreaDirectoryDisplay;
