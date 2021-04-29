@@ -102,7 +102,7 @@
                   <Component id="LabelDirectoryContents" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                   <Component id="LabelFilename" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane3" min="-2" pref="148" max="-2" attributes="0"/>
@@ -121,17 +121,18 @@
                           <Component id="FieldEndsWith" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="LabelEndsWith" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="LabelAction" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="ButtonMove" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="DirectoryDisplay" min="-2" pref="245" max="-2" attributes="0"/>
+                  <Component id="DirectoryDisplay" min="-2" pref="334" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="LabelChanges" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-              <Component id="LabelAction" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="ButtonMove" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="LabelTargetDirectory" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="LabelTargetDirectory" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LabelChanges" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
@@ -145,7 +146,7 @@
                   </Group>
                   <Component id="NewDirectoryDisplay" min="-2" pref="209" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="53" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="ButtonTest" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="ButtonStart" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -184,6 +185,7 @@
         <Component class="javax.swing.JTextArea" name="AreaNewDirectory">
           <Properties>
             <Property name="columns" type="int" value="20"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" value="[display changes to be made here]"/>
           </Properties>
@@ -216,22 +218,13 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldContains">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="[Contains]"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FieldContainsActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldStartsWith">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="[Starts with]"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldEndsWith">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="[Ends with]"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldDirectory">
       <Properties>

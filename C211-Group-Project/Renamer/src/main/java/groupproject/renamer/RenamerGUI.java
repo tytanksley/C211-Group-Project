@@ -9,10 +9,14 @@
 package groupproject.renamer;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  *
  * @author home
@@ -71,6 +75,7 @@ public class RenamerGUI extends javax.swing.JFrame {
         DirectoryDisplay.setViewportView(AreaDirectoryDisplay);
 
         AreaNewDirectory.setColumns(20);
+        AreaNewDirectory.setLineWrap(true);
         AreaNewDirectory.setRows(5);
         AreaNewDirectory.setText("[display changes to be made here]");
         NewDirectoryDisplay.setViewportView(AreaNewDirectory);
@@ -85,16 +90,11 @@ public class RenamerGUI extends javax.swing.JFrame {
 
         LabelEndsWith.setText("Ends with");
 
-        FieldContains.setText("[Contains]");
         FieldContains.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FieldContainsActionPerformed(evt);
             }
         });
-
-        FieldStartsWith.setText("[Starts with]");
-
-        FieldEndsWith.setText("[Ends with]");
 
         FieldDirectory.setText(getCurrentDirectory());
 
@@ -202,7 +202,7 @@ public class RenamerGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LabelDirectoryContents, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(LabelFilename))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,16 +217,16 @@ public class RenamerGUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(FieldEndsWith, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelEndsWith)))
-                    .addComponent(DirectoryDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(LabelChanges)
-                .addGap(3, 3, 3)
-                .addComponent(LabelAction)
-                .addGap(18, 18, 18)
-                .addComponent(ButtonMove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LabelTargetDirectory)
+                            .addComponent(LabelEndsWith))
+                        .addGap(24, 24, 24)
+                        .addComponent(LabelAction)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonMove))
+                    .addComponent(DirectoryDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelTargetDirectory)
+                    .addComponent(LabelChanges))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -238,7 +238,7 @@ public class RenamerGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))
                     .addComponent(NewDirectoryDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonTest)
                     .addComponent(ButtonStart))
@@ -306,7 +306,7 @@ public class RenamerGUI extends javax.swing.JFrame {
         });
     }
 
-    // get arraylist of filenames from AreaFilename
+    // get arraylist of files from AreaFilename
 
     public ArrayList<File> getFilenames(){
      Scanner scan = new Scanner(AreaFilename.getText());
@@ -318,7 +318,7 @@ public class RenamerGUI extends javax.swing.JFrame {
 
      return filenames;
     }
-    
+    // get arraylist of files from AreaNewFilename
     public ArrayList<File> getNewFilenames(){
      Scanner scan = new Scanner(AreaNewFilename.getText());
      ArrayList<File> filenames = new ArrayList<File>();
@@ -330,7 +330,7 @@ public class RenamerGUI extends javax.swing.JFrame {
      return filenames;
     }
     
-    
+    // return an ArrayList<String> from AreaFilename
     public ArrayList<String> filenamesToString()
     {
         ArrayList<String> filenames = new ArrayList<String>();
@@ -341,6 +341,7 @@ public class RenamerGUI extends javax.swing.JFrame {
         return filenames;
     }
     
+    // return an ArrayList<String> from AreaNewFilename
      public ArrayList<String> newFilenamesToString()
     {
         ArrayList<String> filenames = new ArrayList<String>();
@@ -352,7 +353,7 @@ public class RenamerGUI extends javax.swing.JFrame {
     }
 
     // Find current directory
-    String getCurrentDirectory() {
+   public String getCurrentDirectory() {
       String path = System.getProperty("user.dir");
       
       System.out.println("Working Directory = " + path);
@@ -386,8 +387,71 @@ public class RenamerGUI extends javax.swing.JFrame {
         return files;
     }
   
+    // return arraylist<file> of files that contain a string
+    public ArrayList<File> filenameContains()
+     {
+       
+        File[] files = displayDirectoryContents();
+         // arraylist to hold files with matching name
+         ArrayList<File> matchingFiles = new ArrayList<File>();
+         String patternString = FieldContains.getText();
+       
+         // loop through getFilenames() arraylist and check against pattern
+         
+         for(int i = 0; i < files.length; i++)
+         {
+            // Matcher matcher = pattern.matcher("*" + files.get(i).toString() + "*");
+           
+             if(files[i].getName().contains(patternString))
+                 matchingFiles.add(files[i]);
+             
+         }
+             return matchingFiles;
+        
+     }    
+  
+    public ArrayList<File> filenameEndsWith()
+    {
+         File[] files = displayDirectoryContents();
+         ArrayList<File> matchingFiles = new ArrayList<File>();
+         String patternString = ".*" + FieldEndsWith.getText() + "$";
+         
+         for(File f : files)
+         {
+            String comparison = f.getName();
+         Boolean matched = comparison.matches(patternString);
+       
+         
+         if(matched)
+             matchingFiles.add(f);
+         }
+        
+         return matchingFiles;
+    }
     
-   
+    public ArrayList<File> filenameStartswith()
+    {
+           File[] files = displayDirectoryContents();
+         ArrayList<File> matchingFiles = new ArrayList<File>();
+         String patternString = "^" + FieldStartsWith.getText() + ".*";
+         
+         
+         for(File f : files)
+         {
+            String comparison = f.getName();
+         Boolean matched = comparison.matches(patternString);
+       
+         
+         if(matched)
+             matchingFiles.add(f);
+         }
+        
+         return matchingFiles;
+        
+    }
+    
+   // get files from AreaFilename and rename them to match AreaNewfilename
+        // need to add an exception catch here r/e number of files
     
     public void renameFile()
     {
@@ -395,12 +459,16 @@ public class RenamerGUI extends javax.swing.JFrame {
         ArrayList<File> newFilenames = getNewFilenames();
           AreaNewDirectory.setText("");
           
-        
-        for(int i = 0; i < originalFilenames.size(); i++)
+        try {
+             for(int i = 0; i < originalFilenames.size(); i++)
         {
             if(originalFilenames.get(i).renameTo(newFilenames.get(i)));
             AreaNewDirectory.append(originalFilenames.get(i).toString() + " --> " + newFilenames.get(i).toString());
         }
+        }
+       catch(Exception e){
+        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+    }
     }
     // display changes to be made made by renameFile()
   
@@ -412,24 +480,32 @@ public class RenamerGUI extends javax.swing.JFrame {
         
         // clear display
         AreaNewDirectory.setText("");
-        
+        try {
         for (int i = 0; i < orginalFilenames.size(); i++)
         {
         AreaNewDirectory.append(orginalFilenames.get(i) + " --> " + newFilenames.get(i) + "\n");
     
         }
+        }
+         catch(Exception e){
+        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+    }
     }
   
     
      public void moveFile()
     {
         String fileSep = File.separator;
+        // arraylists of old/new filenames, plus a dummy arraylist for target files
+        // targetFilenames = originalFilenames if now renaming
+        
         ArrayList<File> originalFilenames = new ArrayList<>();
         ArrayList<File> newFilenames = getNewFilenames();
         ArrayList<File> targetFilenames = new ArrayList<>();
-       
-  
-        // determine if file to be moved will also be renamed
+           
+        try{
+      
+        //  if file to be moved will also be renamed
         if(ButtonRename.isSelected())
         {
             renameFile();
@@ -440,7 +516,7 @@ public class RenamerGUI extends javax.swing.JFrame {
             targetFilenames.add(new File(FieldTargetDirectory.getText() + fileSep + newFilenames.get(i).toString()));             
         }
         }
-        
+        // if only moving, not renaming
         if(!ButtonRename.isSelected())
         {
             originalFilenames = getFilenames();
@@ -448,8 +524,7 @@ public class RenamerGUI extends javax.swing.JFrame {
          {
              targetFilenames.add(new File(FieldTargetDirectory.getText() + fileSep + originalFilenames.get(i).toString()));
              AreaNewDirectory.append(targetFilenames.toString());
-             
-         }
+             }
         }
         
        // clear display 
@@ -465,20 +540,37 @@ public class RenamerGUI extends javax.swing.JFrame {
           }
         
     }
-        
         }
+        
+        
+     catch(Exception e){
+        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+    }
     
-    
- 
+        
+    }
     
     public void testMove()
     {
         String fileSep = File.separator;
+        
+        // arraylists of old/new filenames, plus a dummy arraylist for target files
+            // targetFilenames = originalFilenames if now renaming
         ArrayList<File> originalFiles = getFilenames();
         ArrayList<File> newFiles = getNewFilenames();
         ArrayList<String> targetFiles = new ArrayList<String>();
+       
+     
+        try {
         
-        // move only
+            /**
+         * can't get this directory test to work properly 
+              // check to see if target directory exists
+        Path targetDirectory = Paths.get(FieldTargetDirectory.toString());       
+        assert(Files.isDirectory(targetDirectory));
+         **/
+            
+            // move only
         // get filenames from AreaFilename and add to targetFiles
         if(!ButtonRename.isSelected())
         {
@@ -514,11 +606,22 @@ public class RenamerGUI extends javax.swing.JFrame {
            AreaNewDirectory.append(originalFiles.get(i) + " --> " + FieldTargetDirectory.getText() + fileSep + newFiles.get(i) + "\n");
        }
         }
+        }
+        
+        catch(Exception e){
+        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
     }
-    // test button
+        }
+        // test button
     public void testButton()
     {
-
+        /**
+        AreaNewDirectory.setText("");
+        for(File f : filenameStartswith())
+            AreaNewDirectory.append(f.getName());
+        **/
+        
+        try{
         if(ButtonRename.isSelected() && !ButtonMove.isSelected())
             testRename();
         if(ButtonMove.isSelected() && !ButtonRename.isSelected())
@@ -528,10 +631,14 @@ public class RenamerGUI extends javax.swing.JFrame {
           //  testRename();
             testMove();
         }
+        }
+        catch(Exception e){
+        AreaNewDirectory.setText("Something went wrong. Please make sure you have the correct number of new names and correct location for your desired changes");
+    }
+    
     }
     
     // start button
-    // getting a bug when i try to rename and move in same action
     public void startButton()
     {
 
