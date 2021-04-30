@@ -1,0 +1,19 @@
+- Previous versions of the program were able to move and rename files at the same time.  When code for the advanced options was added, this action threw an error for unknown reasons.  This requires users to rename before moving, deselect 'rename' button, and re-add information into 'file name(s)' field before moving. 
+
+- the code  to determine whether an advanced option is selected is repeated several times, as are some blocks relating to getting/storing filenames from user input.  This functionality would have been better achieved by creating methods/classes to handle filenames and user input.
+
+- the purposes of some GUI components/code changed as the code developed and the GUI design changed, so some of the components/methods do not have intuitive names
+
+- jframe components are set to private by default in netbeans swing, which made it difficult to break the code into multiple files without side-effects
+
+- there should be some exception catches regarding number of filenames in arraylists. e.g., selecting 2 files to rename but only 1 new filename may cause an unanticipated error that could break the program without showing a message to the user
+
+- Some of the text areas could be more responsive.  The directory display refreshes each time the start button is pressed, but the filename field could have been refreshed to display the new filenames  and clear 'new filenames' area, to make it easier to perform one action after another.
+
+- 'Changes to be made' field could have been a popup. the long lines required to show file paths would be better displayed in a larger component and the form would look less busy if changes were shown as a dialog. 
+
+- many of the code comments could be javadocs
+
+- it would have been ideal to allow users to select files by cliking/highlighting, but getting basic functionality working took enough time that this was not pursued.
+
+- The target directory for moveFile() can be reset by the user, but program only works out of Java project directory and does not allow users to select a different directory to work from.  Native Java GUI file explorers were not tested either, due to time restraints.
